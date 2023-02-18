@@ -1,0 +1,24 @@
+{
+  "name": "lian-qicq",
+  "version": "0.0.0",
+  "main": "src/start.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/start.js"
+  },
+  "keywords": [
+    "lian",
+    "qicq"
+  ],
+  "author": {
+    "name": "xtt",
+    "email": "wtt150249@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "oicq": "^2.3.1",
+    "sequelize": "^6.28.0",
+    "sqlite3": "^5.1.4",
+    "xtt-msg": "^1.0.6"
+  }
+}
