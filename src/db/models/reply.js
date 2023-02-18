@@ -25,15 +25,25 @@ const Reply = sequelize.define("Reply", {
 Reply.sync();
 
 // Reply.create({
-// 	keyword: "喵语:",
-// 	reply: "【喵语-->>【文本-取文本右-->>【qq-当前回复】-->>:】】",
+// 	keyword: "介绍",
+// 	reply: `【JSON-->>
+// 	【访问-->>https://api.cngal.org/api/home/Search?text=【文本-取文本右-->>【qq-当前回复】-->>介绍】&types=role&types=game】
+// 	-->>[pagedResultDto][data][0][entry][name]】`,
 // 	match: 1
 // });
 
-// const keywordMap = await Reply.findAll({
-// 	attributes: ["keyword", "reply", "match"],
-// 	raw: true
-// });
-// console.log(keywordMap);
+// Reply.update(
+// 	{
+// 		reply: `【变量-->>信息-->>【JSON-->>【访问-->>https://api.cngal.org/api/home/Search?text=【文本-取文本右-->>【qq-当前回复】-->>介绍】&types=role&types=game】-->>[pagedResultDto][data][0][entry]】】
+// 		【qq-图片-->>【JSON-->>【变量-->>信息】-->>[mainImage]】】
+// 		【JSON-->>【变量-->>信息】-->>[name]】
+// 		【JSON-->>【变量-->>信息】-->>[briefIntroduction]】`
+// 	},
+// 	{
+// 		where: {
+// 			id: 3
+// 		}
+// 	}
+// );
 
 export { Reply };
