@@ -163,15 +163,10 @@ export const message = async (info) => {
 
 	if (info.group_id === 754923572) {
 		let msg = info.raw_message;
-		if (msg?.startsWith("#") || inputStream.start) {
-			if (!inputStream.start) {
-				msg = msg.replace("#", "");
-			}
 
-			initMessageVariable(msg);
+		initMessageVariable(msg);
 
-			doReply((await getKeywordMap()).groupKeywordMap, msg);
-		}
+		doReply((await getKeywordMap()).groupKeywordMap, msg);
 	} else if (info.message_type === "private") {
 		let msg = info.raw_message;
 
