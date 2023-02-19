@@ -123,6 +123,17 @@ export const message = async (info) => {
 							break;
 						case 4:
 							if (new RegExp(item.keyword).test(msg)) {
+								const path = new RegExp(item.keyword).exec(msg);
+								if (path.length > 1) {
+									path.forEach((item, index) => {
+										if (index === 0) {
+											return;
+										}
+										showText.showTextBrowser(
+											`【变量-->>$${index}-->>${item}】`
+										);
+									});
+								}
 								return item.reply;
 							}
 							break;

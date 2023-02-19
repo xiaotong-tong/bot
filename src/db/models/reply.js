@@ -36,9 +36,9 @@ Reply.sync();
 // Reply.sync({ alter: true }); // 会同步模型到数据库中，包括新增字段
 
 // Reply.create({
-// 	keyword: "解喵语:",
-// 	reply: `【解喵语-->>【文本-取文本右-->>【qq-当前回复】-->>:】】`,
-// 	match: 1
+// 	keyword: "^.r(\\d*)[dD](\\d+)$",
+// 	reply: `【随机数-->>1-->>【变量-->>$2】】`,
+// 	match: 4
 // });
 
 // Reply.update(
