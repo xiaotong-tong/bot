@@ -15,27 +15,45 @@ showText.plugins(({ TextMatch, replaceText }) => {
 				return "";
 			}
 			return "<!0>img" + path + "<!0>";
+		},
+		"qq-换行": async () => {
+			return "\n";
 		}
 	};
 });
 
-let keywordMap = await Reply.findAll({
-	attributes: ["keyword", "reply", "match"],
-	raw: true
-});
+let getKeywordMap = async () => {
+	const keywordMap = await Reply.findAll({
+		attributes: ["keyword", "reply", "match", "trigger"],
+		order: [["priority", "DESC"]],
+		raw: true
+	});
+
+	const groupKeywordMap = keywordMap.filter(
+		(item) => item.trigger === 1 || item.trigger === 0
+	);
+	const privateKeywordMap = keywordMap.filter(
+		(item) => item.trigger === 2 || item.trigger === 0
+	);
+
+	getKeywordMap = () => {
+		return {
+			keywordMap,
+			groupKeywordMap,
+			privateKeywordMap
+		};
+	};
+	return {
+		keywordMap,
+		groupKeywordMap,
+		privateKeywordMap
+	};
+};
 
 export const message = async (info) => {
 	console.log("message");
 	console.log("--------------------");
 	console.log(info);
-
-	if (!keywordMap?.length) {
-		console.log("keywordMap");
-		keywordMap = await Reply.findAll({
-			attributes: ["keyword", "reply", "match"],
-			raw: true
-		});
-	}
 
 	if (info.group_id === 754923572) {
 		let msg = info.raw_message;
@@ -44,7 +62,7 @@ export const message = async (info) => {
 
 			showText.showTextBrowser(`【变量-->>qq-当前回复-->>${msg}】`);
 
-			const isMatched = keywordMap.some((item) => {
+			const isMatched = (await getKeywordMap()).groupKeywordMap.some((item) => {
 				switch (item.match) {
 					case 0:
 						if (msg === item.keyword) {
@@ -83,7 +101,9 @@ export const message = async (info) => {
 			if (!isMatched) {
 				return;
 			}
+
 			showText.showTextBrowser(msg).then((res) => {
+				console.log(res);
 				if (res.includes("<!0>")) {
 					res = res.split("<!0>").map((item) => {
 						if (item.startsWith("img")) {
@@ -93,6 +113,9 @@ export const message = async (info) => {
 						return item;
 					});
 				}
+				if (!res) {
+					return;
+				}
 				info.reply(res);
 			});
 		}
@@ -101,7 +124,7 @@ export const message = async (info) => {
 
 		showText.showTextBrowser(`【变量-->>qq-当前回复-->>${msg}】`);
 
-		const isMatched = keywordMap.some((item) => {
+		const isMatched = (await getKeywordMap()).privateKeywordMap.some((item) => {
 			switch (item.match) {
 				case 0:
 					if (msg === item.keyword) {
@@ -151,6 +174,10 @@ export const message = async (info) => {
 					}
 					return item;
 				});
+			}
+
+			if (!res) {
+				return;
 			}
 			info.reply(res);
 		});
