@@ -16,9 +16,10 @@
 	},
 	"license": "MIT",
 	"dependencies": {
+		"icqq": "^0.0.29",
 		"oicq": "^2.3.1",
 		"sequelize": "^6.28.0",
 		"sqlite3": "^5.1.4",
-		"xtt-msg": "^1.0.7"
+		"xtt-msg": "^1.1.0"
 	}
 }

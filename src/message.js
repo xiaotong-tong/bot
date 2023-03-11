@@ -1,8 +1,10 @@
 import showText from "xtt-msg";
 import { fetchPlugin } from "xtt-msg/plugin-fetch";
 import { Reply } from "./db/models/reply.js";
-import { segment } from "oicq";
+import { segment } from "icqq";
+import { createReplyCurry } from "./addreply.js";
 
+let doCreateReply = createReplyCurry;
 showText.plugins(fetchPlugin);
 showText.plugins(({ TextMatch, replaceText }) => {
 	return {
@@ -40,6 +42,21 @@ showText.plugins(({ TextMatch, replaceText }) => {
 				res += item.keyword + "\n";
 			});
 			return res;
+		},
+		添加回复: async (text) => {
+			const [keyword] = await TextMatch.doTextMatchList(text);
+
+			doCreateReply = doCreateReply(keyword);
+
+			if (typeof doCreateReply === "function") {
+				return "";
+			} else if (doCreateReply === "success") {
+				doCreateReply = createReplyCurry;
+				return "添加成功";
+			} else {
+				doCreateReply = createReplyCurry;
+				return "添加失败";
+			}
 		}
 	};
 });
@@ -58,13 +75,13 @@ let getKeywordMap = async () => {
 		(item) => item.trigger === 2 || item.trigger === 0
 	);
 
-	getKeywordMap = () => {
-		return {
-			keywordMap,
-			groupKeywordMap,
-			privateKeywordMap
-		};
-	};
+	// getKeywordMap = () => {
+	// 	return {
+	// 		keywordMap,
+	// 		groupKeywordMap,
+	// 		privateKeywordMap
+	// 	};
+	// };
 	return {
 		keywordMap,
 		groupKeywordMap,
@@ -78,9 +95,9 @@ let inputStream = {
 };
 
 export const message = async (info) => {
-	console.log("message");
-	console.log("--------------------");
-	console.log(info);
+	// console.log("message");
+	// console.log("--------------------");
+	// console.log(info);
 
 	const initMessageVariable = (msg) => {
 		showText.showTextBrowser(
@@ -130,7 +147,7 @@ export const message = async (info) => {
 											return;
 										}
 										showText.showTextBrowser(
-											`【变量-->>$${index}-->>${item}】`
+											`【变量-->>$${index}-->>${item || "null"}】`
 										);
 									});
 								}

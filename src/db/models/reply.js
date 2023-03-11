@@ -35,30 +35,4 @@ const Reply = sequelize.define("Reply", {
 Reply.sync();
 // Reply.sync({ alter: true }); // 会同步模型到数据库中，包括新增字段
 
-// Reply.create({
-// 	keyword: "^.r(\\d*)[dD](\\d+)$",
-// 	reply: `【随机数-->>1-->>【变量-->>$2】】`,
-// 	match: 4
-// });
-
-// Reply.update(
-// 	{
-// 		reply: `【变量-->>信息-->>【JSON-->>【访问-->>https://api.cngal.org/api/home/Search?text=【文本-取文本右-->>【qq-当前回复】-->>介绍】&types=role&types=game】-->>[pagedResultDto][data][0][entry]】】
-// 		【qq-图片-->>【JSON-->>【变量-->>信息】-->>[mainImage]】】
-// 		【JSON-->>【变量-->>信息】-->>[name]】【qq-换行】
-// 		【JSON-->>【变量-->>信息】-->>[briefIntroduction]】`
-// 	},
-// 	{
-// 		where: {
-// 			id: 3
-// 		}
-// 	}
-// );
-
-// Reply.destroy({
-// 	where: {
-// 		id: 5
-// 	}
-// });
-
 export { Reply };
