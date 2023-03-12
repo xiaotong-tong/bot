@@ -46,7 +46,7 @@ showText.plugins(({ TextMatch, replaceText }) => {
 		添加回复: async (text) => {
 			const [keyword] = await TextMatch.doTextMatchList(text);
 
-			doCreateReply = doCreateReply(keyword);
+			doCreateReply = doCreateReply(replaceText.unescapeChar(keyword));
 
 			if (typeof doCreateReply === "function") {
 				return "";
@@ -106,14 +106,14 @@ export const message = async (info) => {
 			【变量-->>发送者昵称-->>${info.sender.nickname}】`
 		);
 	};
-	const doReply = (keywordMap, msg) => {
-		const refreshMsg = () => {
+	const doReply = async (keywordMap, msg) => {
+		const refreshMsg = async () => {
 			if (inputStream.start) {
 				let res;
 				inputStream.start = false;
 				res = inputStream.value;
 				inputStream.value = "";
-				showText.showTextBrowser(`【变量-->>输入流-->>${msg}】`);
+				await showText.showTextBrowser(`【变量-->>输入流-->>${msg}】`);
 				return res;
 			} else {
 				for (const item of keywordMap) {
@@ -159,7 +159,7 @@ export const message = async (info) => {
 			}
 		};
 
-		msg = refreshMsg();
+		msg = await refreshMsg();
 
 		if (!msg) {
 			return;
